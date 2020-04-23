@@ -228,8 +228,11 @@ function create() {
 
   //  Create our keyboard controls
   cursors = this.input.keyboard.createCursorKeys();
-  document.querySelector("#gameArea").childNodes[0].id = "game-canvas";
-  document.querySelector("#canvas-display").setAttribute("material", "src", "#game-canvas");
+  parent = this.scene.systems.game.canvas.parentNode;
+  document.getElementById(parent.id).childNodes[0].id = `game-canvas-${parent.id}`;
+  document
+    .getElementById(`canvas-display-${parent.id}`)
+    .setAttribute("material", `src: #game-canvas-${parent.id}; shader: flat;`);
 }
 
 function update(time, delta) {
@@ -314,22 +317,32 @@ function repositionFood() {
   }
 }
 
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+    (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
+  );
+}
+
 AFRAME.registerComponent("start-game", {
+  multiple: true,
   init() {
+    this.gameId = uuidv4();
     this.gameArea = document.createElement("div");
-    this.gameArea.id = "gameArea";
+    this.gameArea.id = `gameArea-${this.gameId}`;
 
     this.plane = document.createElement("a-plane");
-    this.plane.id = "canvas-display";
+    this.plane.id = `canvas-display-${this.gameArea.id}`;
     this.plane.setAttribute("width", "1.8");
     this.plane.setAttribute("height", "1.2");
     this.plane.setAttribute("position", "0 2.8 -0.220");
 
-    document.body.appendChild(this.gameArea);
+    this.el.appendChild(this.gameArea);
     this.el.appendChild(this.plane);
 
+    this.gameConfig = config;
+    this.gameConfig.parent = this.gameArea.id;
     console.log("Game Inited");
-    this.game = new Phaser.Game(config);
+    this.game = new Phaser.Game(this.gameConfig);
     this.onClick = () => {
       if (!this.game) {
       } else {
@@ -345,14 +358,17 @@ AFRAME.registerComponent("start-game", {
     this.el.object3D.removeEventListener("interact", this.onClick);
   },
   tick() {
-    var material;
-
-    material = this.el.getChildren()[0].getObject3D("mesh");
-    if (material) {
-      if (!material.material.map) {
-        return;
+    for (const child of this.el.getChildren()) {
+      if (child.id.includes("canvas-display")) {
+        var material;
+        material = child.getObject3D("mesh");
+        if (material) {
+          if (!material.material.map) {
+            return;
+          }
+          material.material.map.needsUpdate = true;
+        }
       }
-      material.material.map.needsUpdate = true;
     }
   }
 });
