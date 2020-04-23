@@ -131,6 +131,8 @@ AFRAME.GLTFModelPlus.registerComponent("nav-mesh", "nav-mesh", (el, _componentNa
 
 AFRAME.GLTFModelPlus.registerComponent("pinnable", "pinnable");
 
+AFRAME.GLTFModelPlus.registerComponent("start-game", "start-game");
+
 AFRAME.GLTFModelPlus.registerComponent("waypoint", "waypoint", (el, componentName, componentData, components) => {
   if (componentData.canBeOccupied) {
     el.setAttribute("networked", {

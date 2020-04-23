@@ -7,7 +7,7 @@ import { addSetsToBindings } from "./utils";
 
 const wasd_vec2 = "/var/mouse-and-keyboard/wasd_vec2";
 const keyboardCharacterAcceleration = "/var/mouse-and-keyboard/keyboardCharacterAcceleration";
-const arrows_vec2 = "/var/mouse-and-keyboard/arrows_vec2";
+// const arrows_vec2 = "/var/mouse-and-keyboard/arrows_vec2";
 const togglePenWithRMB = "/vars/mouse-and-keyboard/drop_pen_with_RMB";
 const togglePenWithEsc = "/vars/mouse-and-keyboard/drop_pen_with_esc";
 const togglePenWithP = "/vars/mouse-and-keyboard/drop_pen_with_p";
@@ -43,16 +43,16 @@ export const keyboardMouseUserBindings = addSetsToBindings({
       dest: { value: paths.actions.cursor.left.wake },
       xform: xforms.always(false)
     },
-    {
-      src: {
-        w: paths.device.keyboard.key("arrowup"),
-        a: paths.device.keyboard.key("arrowleft"),
-        s: paths.device.keyboard.key("arrowdown"),
-        d: paths.device.keyboard.key("arrowright")
-      },
-      dest: { vec2: arrows_vec2 },
-      xform: xforms.wasd_to_vec2
-    },
+    // {
+    //   src: {
+    //     w: paths.device.keyboard.key("arrowup"),
+    //     a: paths.device.keyboard.key("arrowleft"),
+    //     s: paths.device.keyboard.key("arrowdown"),
+    //     d: paths.device.keyboard.key("arrowright")
+    //   },
+    //   dest: { vec2: arrows_vec2 },
+    //   xform: xforms.wasd_to_vec2
+    // },
     {
       src: {
         w: paths.device.keyboard.key("w"),
@@ -65,8 +65,8 @@ export const keyboardMouseUserBindings = addSetsToBindings({
     },
     {
       src: {
-        first: wasd_vec2,
-        second: arrows_vec2
+        first: wasd_vec2
+        // second: arrows_vec2
       },
       dest: { value: keyboardCharacterAcceleration },
       xform: xforms.max_vec2
