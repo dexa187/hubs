@@ -228,6 +228,7 @@ class Snake extends Phaser.Scene {
     this.snake = new Snake(this, 8, 8);
 
     //  Create our keyboard controls
+    //  TODO: Only listen to cursor keys when focused
     this.cursors = this.input.keyboard.createCursorKeys();
     parent = this.scene.systems.game.canvas.parentNode;
     document.getElementById(parent.id).childNodes[0].id = `game-canvas-${parent.id}`;
@@ -346,7 +347,8 @@ AFRAME.registerComponent("start-game", {
     this.gameConfig.parent = this.gameArea.id;
     this.gameConfig.scene = [Snake];
     console.log("Game Inited");
-    new Phaser.Game(this.gameConfig);
+    this.game = new Phaser.Game(this.gameConfig);
+    // TODO:  Restart game
     this.onClick = () => {
       if (!this.game) {
       } else {

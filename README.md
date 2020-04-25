@@ -1,7 +1,26 @@
 [![Build Status](https://travis-ci.org/mozilla/hubs.svg?branch=master)](https://travis-ci.org/mozilla/hubs)
 
-The client-side code for https://hubs.mozilla.com/, a multi-user experience in WebVR. Built with
+This is a Fork of The client-side code for https://hubs.mozilla.com/, a multi-user experience in WebVR. Built with
 [A-Frame](https://github.com/aframevr/aframe/).
+
+It adds a component to run a simple snake game using the phaser game framework.
+
+![](snakehubs.gif)
+
+I used the https://threejs.org/editor/ to add some userdata to an arcade machine model
+```
+{
+  "name": "Snake Arcade",
+  "gltfExtensions": {
+    "MOZ_hubs_components": {
+      "start-game": {}
+    }
+  }
+}
+```
+So the [model](src/assets/models/arcade-moz.glb) will use the ["start-game"](src/components/start-game.js) component which is registered in
+[gltf-component-mappings.js](src/gltf-component-mappings.js)
+
 
 ## Getting Started
 
